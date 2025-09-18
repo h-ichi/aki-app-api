@@ -1,20 +1,32 @@
-FROM ruby:3.2
+# Ruby 3.2.2 ベース
+FROM ruby:3.2.2
 
-# NodeJS & Yarn（JavaScript依存用）
-RUN apt-get update -qq && apt-get install -y nodejs yarn postgresql-client
+# 必須パッケージ、Node.js、Yarn、Postgres クライアント
+RUN apt-get update -qq && apt-get install -y \
+    curl \
+    gnupg2 \
+    build-essential \
+    libpq-dev \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+    && apt-get update -qq && apt-get install -y yarn postgresql-client \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # 作業ディレクトリ
-WORKDIR /aki_finder_api
+WORKDIR /app
 
-# Gemfileコピー & bundle install
+# Gemfile を先にコピーして bundle install（キャッシュ効率化）
 COPY Gemfile* ./
 RUN bundle install
 
-# アプリコードコピー
+# アプリケーションコードをコピー
 COPY . .
 
-# ポート公開
+# Rails サーバー公開ポート
 EXPOSE 3000
 
-# サーバ起動
+# デフォルトコマンド
 CMD ["bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]

@@ -5,10 +5,11 @@ default: &default
 
 development:
   <<: *default
-  database: aki_finder_api_development
-  username: rails
-  password: password
-  host: db
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  port: 5432
 
 test:
   <<: *default
