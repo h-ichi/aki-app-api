@@ -1,8 +1,7 @@
-# Dockerfile
 FROM ruby:3.2
 
-# 必要パッケージ
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+# NodeJS & Yarn（JavaScript依存用）
+RUN apt-get update -qq && apt-get install -y nodejs yarn postgresql-client
 
 # 作業ディレクトリ
 WORKDIR /aki_finder_api
@@ -11,8 +10,11 @@ WORKDIR /aki_finder_api
 COPY Gemfile* ./
 RUN bundle install
 
-# アプリコピー
+# アプリコードコピー
 COPY . .
 
-# サーバー起動
-CMD ["rails", "s", "-b", "0.0.0.0"]
+# ポート公開
+EXPOSE 3000
+
+# サーバ起動
+CMD ["bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]

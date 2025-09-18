@@ -1,15 +1,22 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: db          # docker-compose のサービス名
-  username: rails
-  password: password
-  pool: 5
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
   database: aki_finder_api_development
+  username: rails
+  password: password
+  host: db
 
 test:
   <<: *default
   database: aki_finder_api_test
+  username: rails
+  password: password
+  host: db
+
+production:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
