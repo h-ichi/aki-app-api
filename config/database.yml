@@ -2,22 +2,21 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV["DATABASE_URL"] %>
 
 development:
   <<: *default
-  database: <%= ENV['DATABASE_NAME'] %>
-  username: <%= ENV['DATABASE_USER'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
-  host: <%= ENV['DATABASE_HOST'] %>
-  port: 5432
+  database: myapp_development
 
 test:
   <<: *default
-  database: aki_finder_api_test
-  username: rails
-  password: password
-  host: db
+  database: myapp_test
 
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  url: <%= ENV["DATABASE_URL"] %>
+
+  # Solid Cable 用の追加
+  cable:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
