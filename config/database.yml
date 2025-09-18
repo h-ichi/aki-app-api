@@ -17,6 +17,7 @@ production:
   url: <%= ENV["DATABASE_URL"] %>
 
   # Solid Cable 用の追加
-  cable:
+cable:
     <<: *default
     url: <%= ENV["DATABASE_URL"] %>
+  
