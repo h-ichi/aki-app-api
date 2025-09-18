@@ -1,0 +1,15 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: db          # docker-compose のサービス名
+  username: rails
+  password: password
+  pool: 5
+
+development:
+  <<: *default
+  database: aki_finder_api_development
+
+test:
+  <<: *default
+  database: aki_finder_api_test
