@@ -37,5 +37,5 @@ Rails.application.configure do
   config.hosts << "aki-app-api.onrender.com"
 
   # 本番で一時的に全ホスト許可する場合（デバッグ用）
-  # config.hosts.clear
+   config.hosts.clear
 end
