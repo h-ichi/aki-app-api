@@ -86,7 +86,9 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   if ENV["RAILS_HOSTS"]
-    ENV["RAILS_HOSTS"].split(",").each { |host| config.hosts << host.strip }
+    ENV["RAILS_HOSTS"].split(",").each do |host|
+      config.hosts << host.strip
+    end
   end
   
 end
